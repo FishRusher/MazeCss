@@ -61,6 +61,21 @@ body {
     background-color: #006249;
 }
 
+#key {
+    background-image: url("graphics/key.png");
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#lock {
+    background-color: #1F1926;
+    background-image: url("graphics/lock.png");
+    background-size: 80%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 /* 
     ==========================================================
                     Styles for Moves arrows
@@ -103,7 +118,7 @@ body {
     pointer-events: all;
 }
 
-.button:hover {
+.button:hover, #pick_up_key:hover, #open_lock:hover {
     background-color: #7C7484;
 }
 
@@ -132,18 +147,64 @@ body {
     left: 0;
 }
 
-#key_button {
-    top: 100px;
-    left: 0;
-    z-index: 2;
+#pick_up_key {
+    appearance: none;
+    width: 100px;
+    height: 100px;
+    border: 3px solid #1F1926;
+    background-color: #B1A8B9;
+    border-radius: 10px;
 
-    background-color: transparent;
+    transition: 300ms ease background-color;
+    cursor: pointer;
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 70px;
+
+    background-image: url("graphics/pick_up_key.png");
+
+    position: absolute;
+
+    top: 100px;
+    left: 100px;
+
+    pointer-events: all;
+
+    rotate: 180deg;
+
+    visibility: hidden;
 }
 
-/* #key_button:checked {
-    z-index: 10 !important;
-    background-color: black !important;
-} */
+#open_lock {
+    appearance: none;
+    width: 100px;
+    height: 100px;
+    border: 3px solid #1F1926;
+    background-color: #B1A8B9;
+    border-radius: 10px;
+
+    transition: 300ms ease background-color;
+    cursor: pointer;
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 70px;
+
+    background-image: url("graphics/open.png");
+
+    position: absolute;
+
+    top: 100px;
+    left: 100px;
+
+    pointer-events: all;
+
+    rotate: 180deg;
+
+    visibility: hidden;
+}
+
 /* 
     ==========================================================
                     Styles for Ball
@@ -285,7 +346,6 @@ body {
 #setup_4:has(.button_top:checked) ~ #setup_5,
 #setup_5:has(.button_top:checked) ~ #setup_6,
 #setup_6:has(.button_top:checked) ~ #setup_7,
-#setup_7:has(.button_right:checked) ~ #setup_8,
 #setup_7:has(.button_top:checked) ~ #setup_31,
 #setup_8:has(.button_right:checked) ~ #setup_9,
 #setup_9:has(.button_right:checked) ~ #setup_10,
@@ -320,7 +380,6 @@ body {
 #setup_4:has(.button_top:checked) ~ #setup_5 .button,
 #setup_5:has(.button_top:checked) ~ #setup_6 .button,
 #setup_6:has(.button_top:checked) ~ #setup_7 .button,
-#setup_7:has(.button_right:checked) ~ #setup_8 .button,
 #setup_7:has(.button_top:checked) ~ #setup_31 .button,
 #setup_8:has(.button_right:checked) ~ #setup_9 .button,
 #setup_9:has(.button_right:checked) ~ #setup_10 .button,
@@ -393,13 +452,48 @@ body {
 
 /* 
     ==========================================================
-                    Winign the game scripts
+                    Scripts for opening the lock
+    ==========================================================
+*/
+
+#setup_33 .button_left:checked + #pick_up_key {
+    visibility: visible;
+}
+
+#buttons_container:has(#pick_up_key:checked) #setup_7 .button_right:checked ~ #open_lock{
+    visibility: visible;
+}
+
+#pick_up_key:checked, #open_lock:checked {
+    visibility: hidden !important;
+    pointer-events: none;
+}
+
+#board:has(+#buttons_container #pick_up_key:checked) #key {
+    background-image: none;
+}
+
+#board:has(+#buttons_container #open_lock:checked) #lock {
+    background-image: none;
+    background-color: white;
+}
+
+#setup_7:has(.button_right:checked ~ #open_lock:checked) ~ #setup_8 {
+    visibility: visible;
+}
+
+#setup_7:has(.button_right:checked ~ #open_lock:checked) ~ #setup_8 .button {
+    pointer-events: all;
+}
+
+/* 
+    ==========================================================
+                    Winning the game scripts
     ==========================================================
 */
 
 #win_container {
     margin-left: 0;
-    /* display: none; */
     visibility: hidden;
 }
 
