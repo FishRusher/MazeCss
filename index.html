@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="board">
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field" id = "end"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+        </div>
+        <div class="row">
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+        </div>
+        <div class="row">
+            <div class="field" id = "start"></div>
+            <div class="field active"></div>
+            <div class="field active"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+            <div class="field"></div>
+        </div>
+
+        <div id="ball"></div>
+    </div>
+
+    <div id="buttons_container">
+        
+        <div id="setup_1" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+        
+        <div id="setup_2" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+        <div id="setup_3" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_4" class="setup">
+            <input type="checkbox" class="button button_right">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_5" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_6" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_7" class="setup">
+            <input type="checkbox" class="button button_right">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_8" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+        
+        <div id="setup_9" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+        <div id="setup_10" class="setup">
+            <input type="checkbox" class="button button_top">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+        <div id="setup_11" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_12" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_13" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+        
+        <div id="setup_14" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_15" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+        
+        <div id="setup_16" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_17" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+        <div id="setup_18" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+        
+        <div id="setup_19" class="setup">
+            <input type="checkbox" class="button button_right">
+            <input type="checkbox" class="button button_bottom">
+        </div>
+
+        <div id="setup_20" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+        
+        <div id="setup_21" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_22" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_23" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+        <div id="setup_24" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_25" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_26" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_27" class="setup">
+            <input type="checkbox" class="button button_bottom">
+        </div>
+        
+        <div id="setup_28" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+        <div id="setup_31" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+
+        <div id="setup_32" class="setup">
+            <input type="checkbox" class="button button_top">
+        </div>
+        
+        <div id="setup_33" class="setup">
+            <input type="checkbox" class="button button_top">
+            <input type="checkbox" class="button button_left">
+        </div>
+
+        <div id="setup_35" class="setup">
+            <input type="checkbox" class="button button_right">
+        </div>
+
+    </div>
+
+    <div id="win_container">
+        <div id="win_text">
+            Wygrałeś !!!
+        </div>
+    </div>
+
+    <div id="extra_info">
+        <div id="inner_container">
+            <div id="content">
+                Zaleca się grać na rozdzielczości przynajmniej 1920x1080<br>
+                It is recommended to play on resolution at least 1920x1080
+            </div>
+            <input type="checkbox" name="" id="exit">
+
+        </div>
+    </div>
+</body>
+</html>

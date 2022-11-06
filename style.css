@@ -1,0 +1,519 @@
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100vw;
+    height: 100vh;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-image: linear-gradient(to right bottom, #5813c9, #631fd3, #6e2add, #7833e7, #833df1);;
+}
+
+/* 
+    ==========================================================
+                    Styles for board
+    ==========================================================
+*/
+
+#board {
+    width: 800px;
+    height: 800px;
+    border: 2px solid #1F1926;
+    box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
+
+    border-collapse: collapse;
+    background-image: linear-gradient(to right bottom, #4b4453, #5c5464, #6d6575, #7e7687, #908899);
+
+    position: relative;
+
+    transition: 500ms ease 300ms;
+}
+
+.row {
+    flex-grow: 1;
+    display: flex;
+}
+
+.field {
+    flex-grow: 1;
+    border: 2px solid #1F1926;
+}
+
+.field.active {
+    background-color: white;
+}
+
+#start {
+    background-color: #F60000;
+}
+
+#end {
+    background-color: #006249;
+}
+
+/* 
+    ==========================================================
+                    Styles for Moves arrows
+    ==========================================================
+*/
+#buttons_container, #win_container {
+    margin-left: 100px;
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
+
+.setup {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.button {
+    appearance: none;
+    width: 100px;
+    height: 100px;
+    border: 3px solid #1F1926;
+    background-color: #B1A8B9;
+    border-radius: 10px;
+    
+    transition: 300ms ease background-color;
+    cursor: pointer;
+    
+    position: absolute;
+    
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 70px;
+
+    pointer-events: all;
+}
+
+.button:hover {
+    background-color: #7C7484;
+}
+
+
+.button_top {
+    background-image: url("graphics/top.png");
+    top: 0;
+    left: 100px;
+}
+
+.button_right {
+    background-image: url("graphics/right.png");
+    top: 100px;
+    left: 200px;
+}
+
+.button_bottom {
+    background-image: url("graphics/bottom.png");
+    top: 200px;
+    left: 100px;
+}
+
+.button_left {
+    background-image: url("graphics/left.png");
+    top: 100px;
+    left: 0;
+}
+
+#key_button {
+    top: 100px;
+    left: 0;
+    z-index: 2;
+
+    background-color: transparent;
+}
+
+/* #key_button:checked {
+    z-index: 10 !important;
+    background-color: black !important;
+} */
+/* 
+    ==========================================================
+                    Styles for Ball
+    ==========================================================
+*/
+
+#ball {
+    --x: 0;
+    --y: 0;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #1F1926;
+    border-radius: 1000px;
+    background-image: linear-gradient(to right bottom, #0082ff, #0093fd, #00a1f4, #00ade7, #00b6d9);
+
+    position: absolute;
+
+    bottom: calc(var(--y) * 80px);
+    left: calc(var(--x) * 80px);
+
+    translate: 10px -10px;
+
+    transition: 300ms cubic-bezier(0, 0, 0.32, 1);
+}
+
+#setup_1 {z-index: 36;}
+#setup_2 {z-index: 35;}
+#setup_3 {z-index: 34;}
+#setup_4 {z-index: 33;}
+#setup_5 {z-index: 32;}
+#setup_6 {z-index: 31;}
+#setup_7 {z-index: 30;}
+#setup_8 {z-index: 29;}
+#setup_9 {z-index: 28;}
+#setup_10 {z-index: 27;}
+#setup_11 {z-index: 26;}
+#setup_12 {z-index: 25;}
+#setup_13 {z-index: 24;}
+#setup_14 {z-index: 23;}
+#setup_15 {z-index: 22;}
+#setup_16 {z-index: 21;}
+#setup_17 {z-index: 20;}
+#setup_18 {z-index: 19;}
+#setup_19 {z-index: 18;}
+#setup_20 {z-index: 17;}
+#setup_21 {z-index: 16;}
+#setup_22 {z-index: 15;}
+#setup_23 {z-index: 14;}
+#setup_24 {z-index: 13;}
+#setup_25 {z-index: 12;}
+#setup_26 {z-index: 11;}
+#setup_27 {z-index: 10;}
+#setup_28 {z-index: 9;}
+#setup_29 {z-index: 8;}
+#setup_30 {z-index: 7;}
+#setup_31 {z-index: 6;}
+#setup_32 {z-index: 5;}
+#setup_33 {z-index: 4;}
+#setup_34 {z-index: 3;}
+#setup_35 {z-index: 2;}
+#setup_36 {z-index: 1;}
+
+/* 
+    ==========================================================
+                    GAME ENGINE
+    ==========================================================
+*/
+
+.setup:not(#setup_1) .button {
+    pointer-events: none;
+}
+
+#setup_1 {
+    visibility: visible;
+}
+
+.setup:has(.button:checked) {
+    rotate: 180deg;
+}
+
+.setup:has(.button:checked) .button:not(:checked) {
+    visibility: hidden;
+}
+
+/* 
+    ==========================================================
+            Managing MOVES OF BALL
+    ==========================================================
+*/
+
+#board:has(+#buttons_container #setup_1 .button_right:checked) #ball {--x: 1; --y: 0}
+#board:has(+#buttons_container #setup_2 .button_right:checked) #ball {--x: 2; --y: 0}
+#board:has(+#buttons_container #setup_3 .button_top:checked) #ball {--x: 2; --y: 1}
+#board:has(+#buttons_container #setup_4 .button_top:checked) #ball {--x: 2; --y: 2}
+#board:has(+#buttons_container #setup_4 .button_right:checked) #ball {--x: 3; --y: 1}
+#board:has(+#buttons_container #setup_5 .button_top:checked) #ball {--x: 2; --y: 3}
+#board:has(+#buttons_container #setup_6 .button_top:checked) #ball {--x: 2; --y: 4}
+#board:has(+#buttons_container #setup_7 .button_top:checked) #ball {--x: 2; --y: 5}
+#board:has(+#buttons_container #setup_31 .button_top:checked) #ball {--x: 2; --y: 6}
+#board:has(+#buttons_container #setup_32 .button_top:checked) #ball {--x: 2; --y: 7}
+#board:has(+#buttons_container #setup_33 .button_top:checked) #ball {--x: 2; --y: 8}
+#board:has(+#buttons_container #setup_33 .button_left:checked) #ball {--x: 1; --y: 7}
+#board:has(+#buttons_container #setup_35 .button_right:checked) #ball {--x: 3; --y: 8}
+#board:has(+#buttons_container #setup_7 .button_right:checked) #ball {--x: 3; --y: 4}
+#board:has(+#buttons_container #setup_8 .button_right:checked) #ball {--x: 4; --y: 4}
+#board:has(+#buttons_container #setup_9 .button_right:checked) #ball {--x: 5; --y: 4}
+#board:has(+#buttons_container #setup_10 .button_right:checked) #ball {--x: 6; --y: 4}
+#board:has(+#buttons_container #setup_10 .button_top:checked) #ball {--x: 5; --y: 5}
+#board:has(+#buttons_container #setup_19 .button_right:checked) #ball {--x: 7; --y: 4}
+#board:has(+#buttons_container #setup_19 .button_bottom:checked) #ball {--x: 6; --y: 3}
+#board:has(+#buttons_container #setup_20 .button_right:checked) #ball {--x: 8; --y: 4}
+#board:has(+#buttons_container #setup_27 .button_bottom:checked) #ball {--x: 6; --y: 2}
+#board:has(+#buttons_container #setup_28 .button_right:checked) #ball {--x: 7; --y: 2}
+#board:has(+#buttons_container #setup_11 .button_top:checked) #ball {--x: 5; --y: 6}
+#board:has(+#buttons_container #setup_12 .button_top:checked) #ball {--x: 5; --y: 7}
+#board:has(+#buttons_container #setup_13 .button_right:checked) #ball {--x: 6; --y: 7}
+#board:has(+#buttons_container #setup_14 .button_top:checked) #ball {--x: 6; --y: 8}
+#board:has(+#buttons_container #setup_15 .button_right:checked) #ball {--x: 7; --y: 8}
+#board:has(+#buttons_container #setup_16 .button_top:checked) #ball {--x: 7; --y: 9}
+#board:has(+#buttons_container #setup_17 .button_right:checked) #ball {--x: 8; --y: 9}
+#board:has(+#buttons_container #setup_21 .button_top:checked) #ball {--x: 8; --y: 5}
+#board:has(+#buttons_container #setup_22 .button_top:checked) #ball {--x: 8; --y: 6}
+#board:has(+#buttons_container #setup_23 .button_right:checked) #ball {--x: 9; --y: 6}
+#board:has(+#buttons_container #setup_24 .button_top:checked) #ball {--x: 9; --y: 7}
+#board:has(+#buttons_container #setup_25 .button_top:checked) #ball {--x: 9; --y: 8}
+
+#board:has(+#buttons_container #setup_18 .button_right:checked) #ball {--x: 9; --y: 9}
+#board:has(+#buttons_container #setup_26 .button_top:checked) #ball {--x: 9; --y: 9}
+
+/* 
+    ==========================================================
+                    We just setup visibility for different arrows
+    ==========================================================
+*/
+
+#setup_1:has(.button_right:checked) ~ #setup_2,
+#setup_2:has(.button_right:checked) ~ #setup_3,
+#setup_3:has(.button_top:checked) ~ #setup_4,
+#setup_4:has(.button_top:checked) ~ #setup_5,
+#setup_5:has(.button_top:checked) ~ #setup_6,
+#setup_6:has(.button_top:checked) ~ #setup_7,
+#setup_7:has(.button_right:checked) ~ #setup_8,
+#setup_7:has(.button_top:checked) ~ #setup_31,
+#setup_8:has(.button_right:checked) ~ #setup_9,
+#setup_9:has(.button_right:checked) ~ #setup_10,
+#setup_10:has(.button_right:checked) ~ #setup_19,
+#setup_10:has(.button_top:checked) ~ #setup_11,
+#setup_11:has(.button_top:checked) ~ #setup_12,
+#setup_12:has(.button_top:checked) ~ #setup_13,
+#setup_13:has(.button_right:checked) ~ #setup_14,
+#setup_14:has(.button_top:checked) ~ #setup_15,
+#setup_15:has(.button_right:checked) ~ #setup_16,
+#setup_16:has(.button_top:checked) ~ #setup_17,
+#setup_17:has(.button_right:checked) ~ #setup_18,
+#setup_19:has(.button_right:checked) ~ #setup_20,
+#setup_19:has(.button_bottom:checked) ~ #setup_27,
+#setup_20:has(.button_right:checked) ~ #setup_21,
+#setup_21:has(.button_top:checked) ~ #setup_22,
+#setup_22:has(.button_top:checked) ~ #setup_23,
+#setup_23:has(.button_right:checked) ~ #setup_24,
+#setup_24:has(.button_top:checked) ~ #setup_25,
+#setup_25:has(.button_top:checked) ~ #setup_26,
+#setup_27:has(.button_bottom:checked) ~ #setup_28,
+#setup_31:has(.button_top:checked) ~ #setup_32,
+#setup_32:has(.button_top:checked) ~ #setup_33,
+#setup_33:has(.button_top:checked) ~ #setup_35
+{
+    visibility: visible;
+}
+
+#setup_1:has(.button_right:checked) ~ #setup_2 .button,
+#setup_2:has(.button_right:checked) ~ #setup_3 .button,
+#setup_3:has(.button_top:checked) ~ #setup_4 .button,
+#setup_4:has(.button_top:checked) ~ #setup_5 .button,
+#setup_5:has(.button_top:checked) ~ #setup_6 .button,
+#setup_6:has(.button_top:checked) ~ #setup_7 .button,
+#setup_7:has(.button_right:checked) ~ #setup_8 .button,
+#setup_7:has(.button_top:checked) ~ #setup_31 .button,
+#setup_8:has(.button_right:checked) ~ #setup_9 .button,
+#setup_9:has(.button_right:checked) ~ #setup_10 .button,
+#setup_10:has(.button_right:checked) ~ #setup_19 .button,
+#setup_10:has(.button_top:checked) ~ #setup_11 .button,
+#setup_11:has(.button_top:checked) ~ #setup_12 .button,
+#setup_12:has(.button_top:checked) ~ #setup_13 .button,
+#setup_13:has(.button_right:checked) ~ #setup_14 .button,
+#setup_14:has(.button_top:checked) ~ #setup_15 .button,
+#setup_15:has(.button_right:checked) ~ #setup_16 .button,
+#setup_16:has(.button_top:checked) ~ #setup_17 .button,
+#setup_17:has(.button_right:checked) ~ #setup_18 .button,
+#setup_19:has(.button_right:checked) ~ #setup_20 .button,
+#setup_19:has(.button_bottom:checked) ~ #setup_27 .button,
+#setup_20:has(.button_right:checked) ~ #setup_21 .button,
+#setup_21:has(.button_top:checked) ~ #setup_22 .button,
+#setup_22:has(.button_top:checked) ~ #setup_23 .button,
+#setup_23:has(.button_right:checked) ~ #setup_24 .button,
+#setup_24:has(.button_top:checked) ~ #setup_25 .button,
+#setup_25:has(.button_top:checked) ~ #setup_26 .button,
+#setup_27:has(.button_bottom:checked) ~ #setup_28 .button,
+#setup_31:has(.button_top:checked) ~ #setup_32 .button,
+#setup_32:has(.button_top:checked) ~ #setup_33 .button,
+#setup_33:has(.button_top:checked) ~ #setup_35 .button
+{
+    pointer-events: all;
+}
+
+/* 
+    ==========================================================
+                    We reomve visibility of arrows
+    ==========================================================
+*/
+
+#setup_1:has(~#setup_2 .button:checked) .button,
+#setup_2:has(~#setup_3 .button:checked) .button,
+#setup_3:has(~#setup_4 .button:checked) .button,
+#setup_4:has(~#setup_5 .button:checked) .button,
+#setup_5:has(~#setup_6 .button:checked) .button,
+#setup_6:has(~#setup_7 .button:checked) .button,
+#setup_7:has(~#setup_31 .button:checked) .button,
+#setup_7:has(~#setup_8 .button:checked) .button,
+#setup_8:has(~#setup_9 .button:checked) .button,
+#setup_9:has(~#setup_10 .button:checked) .button,
+#setup_10:has(~#setup_11 .button:checked) .button,
+#setup_10:has(~#setup_19 .button:checked) .button,
+#setup_11:has(~#setup_12 .button:checked) .button,
+#setup_12:has(~#setup_13 .button:checked) .button,
+#setup_13:has(~#setup_14 .button:checked) .button,
+#setup_14:has(~#setup_15 .button:checked) .button,
+#setup_15:has(~#setup_16 .button:checked) .button,
+#setup_16:has(~#setup_17 .button:checked) .button,
+#setup_17:has(~#setup_18 .button:checked) .button,
+#setup_19:has(~#setup_20 .button:checked) .button,
+#setup_19:has(~#setup_27 .button:checked) .button,
+#setup_20:has(~#setup_21 .button:checked) .button,
+#setup_21:has(~#setup_22 .button:checked) .button,
+#setup_22:has(~#setup_23 .button:checked) .button,
+#setup_23:has(~#setup_24 .button:checked) .button,
+#setup_24:has(~#setup_25 .button:checked) .button,
+#setup_25:has(~#setup_26 .button:checked) .button,
+#setup_27:has(~#setup_28 .button:checked) .button,
+#setup_31:has(~#setup_32 .button:checked) .button,
+#setup_32:has(~#setup_33 .button:checked) .button,
+#setup_33:has(~#setup_35 .button:checked) .button
+{
+    pointer-events: none;
+    visibility: hidden;
+}
+
+/* 
+    ==========================================================
+                    Winign the game scripts
+    ==========================================================
+*/
+
+#win_container {
+    margin-left: 0;
+    /* display: none; */
+    visibility: hidden;
+}
+
+#win_text {
+    font-family: sans-serif;
+    color: #1F1926;
+    font-weight: bold;
+    font-size: 80px;
+    text-align: center;
+
+    width: 500px;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    transform: scale(0);
+
+    transition-duration: 700ms;
+    transition-timing-function: ease;
+    transition-delay: 200ms;
+}
+
+#buttons_container:has(#setup_18 .button_right:checked),
+#buttons_container:has(#setup_26 .button_top:checked)
+{
+    display: none;
+}
+
+#board:has(+#buttons_container #setup_18 .button_right:checked),
+#board:has(+#buttons_container #setup_26 .button_top:checked)
+{
+    scale: 0.5;
+}
+
+#buttons_container:has(#setup_18 .button_right:checked) ~ #win_container,
+#buttons_container:has(#setup_26 .button_top:checked) ~ #win_container 
+{
+    visibility: visible;
+}
+
+#buttons_container:has(#setup_18 .button_right:checked) ~ #win_container > #win_text,
+#buttons_container:has(#setup_26 .button_top:checked) ~ #win_container > #win_text 
+{
+    animation: victory 200ms 7 linear;
+    transform: scale(1);
+}
+
+@keyframes victory {
+    0% {
+        rotate: 0;
+    }
+
+    100% {
+        rotate: 360deg;
+    }
+}
+
+/* 
+    ==========================================================
+                    EXTRA SCRITPS
+    ==========================================================
+*/
+
+#extra_info {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+
+
+    background-color: white;
+
+    color: #1F1926;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 30px;
+
+    transition: 300ms ease;
+
+}
+
+#extra_info #content {
+    pointer-events: none;
+}
+
+#extra_info:has(#exit:checked) {
+    opacity: 0;
+}
+
+#extra_info #inner_container {
+    position: relative;
+    padding: 40px;
+}
+
+#extra_info #exit {
+    position: absolute;
+    
+    top: 0;
+    right: 0;
+    
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    font-size: 24px;
+    color: #F60000;
+}
+
+#extra_info #exit:checked {
+    visibility: hidden;
+}
+
+#extra_info #exit::before {
+    content: "X";
+    font-family: 'Courier New', Courier, monospace;
+}
