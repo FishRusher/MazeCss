@@ -486,6 +486,23 @@ body {
     pointer-events: all;
 }
 
+#board:has(+#buttons_container #pick_up_key:checked) #ball::before {
+    content: '';
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    background-image: url("graphics/key.png");
+
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#board:has(+#buttons_container #open_lock:checked) #ball::before {
+    display: none;
+}
+
 /* 
     ==========================================================
                     Winning the game scripts
